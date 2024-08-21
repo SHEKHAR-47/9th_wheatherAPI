@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheather API</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="user_input">
+            <form action="#">
+                <input type="text" placeholder="Enter your city name" id="city_name">
+                <button type="button" onclick="getWeatherData()">Search</button>
+
+
+            </form>
+        </div>
+        <div class="weather_container" >
+            <div class="weather_subsection">
+                <h1>weather</h1>
+                <h3 id="location"></h3>
+                <h6 id="last_updt"></h6>
+                <h2 id="current_temp"></h2>
+                <span id="icon"></span>
+                <p id="current_weather"></p>
+            </div>
+
+            
+
+        </div>
+    </div>
+                                                         
+    <script>
+        function getWeatherData() {
+            var city_name = document.getElementById('city_name').value;
+
+            // console.log(city_name)
+
+            axios.get("http://api.weatherapi.com/v1/forecast.json?key=1361bfcd8078419b9d873015242405&q="+city_name+"=1&aqi=no&alerts=no")
+            .then( (response ) =>{
+                console.log(response.data);
+
+                var currentDay=response.data.current;
+                var location=response.data.location;
+
+                console.log(currentDay)
+                
+                document.getElementById('location').innerHTML=location.name;
+                document.getElementById('last_updt').innerHTML=currentDay.last_updated; 
+                document.getElementById('current_temp').innerHTML=currentDay.temp_c;
+                document.getElementById('icon').innerHTML=`<img src = ${currentDay.condition.icon} >`; 
+                document.getElementById('current_weather').innerHTML=currentDay.condition.text;
+
+
+            });
+
+
+        }
+        
+    </script>
+</body>
+
+</html>
+
